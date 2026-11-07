@@ -1,25 +1,12 @@
 {
-  "name": "maverick-md-",
-  "version": "1.0.0",
-  "description": "",
+  "name": "maverick-MD-",
+  "version": "4.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sade756/maverick-MD-.git"
-  },
-  "keywords": [],
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/sade756/maverick-MD-/issues"
-  },
-  "homepage": "https://github.com/sade756/maverick-MD-#readme",
+  "scripts": { "start": "node index.js" },
   "dependencies": {
     "@whiskeysockets/baileys": "6.7.8",
-    "axios": "^1.21.0",
-    "fs-extra": "^11.4.1",
-    "pino": "^10.4.0"
+    "pino": "^8.0.0",
+    "axios": "^1.6.0",
+    "fs-extra": "^11.0.0"
   }
 }

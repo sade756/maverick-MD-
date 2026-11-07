@@ -2,7 +2,15 @@ const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, delay, m
 const pino = require('pino');
 const fs = require('fs-extra');
 const { join } = require('path');
+const http = require('http');
 const readline = require('readline');
+
+// === WEB SERVER FOR RENDER PORT ===
+const PORT = process.env.PORT || 3000;
+http.createServer((req,res)=>{
+  res.writeHead(200, {'Content-Type':'text/plain'});
+  res.end('MAVERICK PREMIUM v4 - 350+ CMDS ACTIVE ✅\nBot is running permanent!');
+}).listen(PORT, ()=> console.log(`🌐 Server running on port ${PORT}`));
 
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 const question = (t)=> new Promise(r=>rl.question(t,r));
@@ -17,9 +25,13 @@ async function startBot(){
   });
 
   if(!sock.authState.creds.registered){
-    const num = await question("Enter your WhatsApp number with country code (e.g 2348058569191): ");
-    const code = await sock.requestPairingCode(num.trim());
-    console.log(`\n🔑 YOUR PAIRING CODE: ${code}\n\nGo WhatsApp > Linked Devices > Link with phone number > Enter code\n`);
+    try{
+      const num = process.env.PHONE_NUMBER || await question("Enter WhatsApp number (234...): ");
+      if(num){
+        const code = await sock.requestPairingCode(num.trim());
+        console.log(`\n🔑 PAIRING CODE: ${code}\nGo WhatsApp > Linked Devices > Link with phone number\n`);
+      }
+    }catch(e){ console.log("Pairing error:", e.message); }
   }
 
   sock.ev.on('creds.update', saveCreds);
@@ -41,7 +53,7 @@ async function startBot(){
   });
   sock.ev.on('connection.update', async (u)=>{
     if(u.connection==='close' && u.lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut){ await delay(3000); startBot(); }
-    if(u.connection==='open'){ console.log('✅ MAVERICK CONNECTED'); rl.close(); }
+    if(u.connection==='open'){ console.log('✅ MAVERICK CONNECTED - 350 CMDS READY'); }
   });
 }
 startBot();
